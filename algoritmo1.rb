@@ -1,0 +1,12 @@
+total = 10
+precio_unitario = 12.5
+_temp = total * 2
+@nombre = nil
+@@contador = 0
+$estado = true
+LIMITE = 50
+IVA = 15
+yo = self
+activo = false
+resultado = (total + precio_unitario) % LIMITE
+x = total ~ 3

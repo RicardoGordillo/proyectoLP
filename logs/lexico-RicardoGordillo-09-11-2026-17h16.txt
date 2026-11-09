@@ -1,0 +1,49 @@
+=== TOKENS RECONOCIDOS ===
+Linea 1: ID - 'total'
+Linea 1: ASSIGN - '='
+Linea 1: NUMBER - 10
+Linea 2: ID - 'precio_unitario'
+Linea 2: ASSIGN - '='
+Linea 2: FLOAT - 12.5
+Linea 3: ID - '_temp'
+Linea 3: ASSIGN - '='
+Linea 3: ID - 'total'
+Linea 3: TIMES - '*'
+Linea 3: NUMBER - 2
+Linea 4: VAR_INSTANCIA - '@nombre'
+Linea 4: ASSIGN - '='
+Linea 4: NIL - 'nil'
+Linea 5: VAR_CLASE - '@@contador'
+Linea 5: ASSIGN - '='
+Linea 5: NUMBER - 0
+Linea 6: VAR_GLOBAL - '$estado'
+Linea 6: ASSIGN - '='
+Linea 6: TRUE - 'true'
+Linea 7: CONSTANTE - 'LIMITE'
+Linea 7: ASSIGN - '='
+Linea 7: NUMBER - 50
+Linea 8: CONSTANTE - 'IVA'
+Linea 8: ASSIGN - '='
+Linea 8: NUMBER - 15
+Linea 9: ID - 'yo'
+Linea 9: ASSIGN - '='
+Linea 9: SELF - 'self'
+Linea 10: ID - 'activo'
+Linea 10: ASSIGN - '='
+Linea 10: FALSE - 'false'
+Linea 11: ID - 'resultado'
+Linea 11: ASSIGN - '='
+Linea 11: LPAREN - '('
+Linea 11: ID - 'total'
+Linea 11: PLUS - '+'
+Linea 11: ID - 'precio_unitario'
+Linea 11: RPAREN - ')'
+Linea 11: MOD - '%'
+Linea 11: CONSTANTE - 'LIMITE'
+Linea 12: ID - 'x'
+Linea 12: ASSIGN - '='
+Linea 12: ID - 'total'
+Linea 12: NUMBER - 3
+
+=== ERRORES LEXICOS ===
+Error lexico, linea 12: caracter no definido en el lenguaje '~'
