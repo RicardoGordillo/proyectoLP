@@ -1,0 +1,12 @@
+numeroPi = 3.14159
+radio = 5
+area = numeroPi*(radio ** 2)
+ladoCuadrado = 4
+areaCuadrado = ladoCuadrado    **     2
+@@contador = 1
+@nombre = "Algoritmo 2" #No esta definido strings aun
+numeroFloat = 10..2
+numeroFloat2 = 10.0.2
+altura = 10
+base = 5
+areaTriangulo = (base * altura) /2

@@ -1,0 +1,69 @@
+=== TOKENS RECONOCIDOS ===
+Linea 1: ID - 'numeroPi'
+Linea 1: ASSIGN - '='
+Linea 1: FLOAT - 3.14159
+Linea 2: ID - 'radio'
+Linea 2: ASSIGN - '='
+Linea 2: NUMBER - 5
+Linea 3: ID - 'area'
+Linea 3: ASSIGN - '='
+Linea 3: ID - 'numeroPi'
+Linea 3: TIMES - '*'
+Linea 3: LPAREN - '('
+Linea 3: ID - 'radio'
+Linea 3: TIMES - '*'
+Linea 3: TIMES - '*'
+Linea 3: NUMBER - 2
+Linea 3: RPAREN - ')'
+Linea 4: ID - 'ladoCuadrado'
+Linea 4: ASSIGN - '='
+Linea 4: NUMBER - 4
+Linea 5: ID - 'areaCuadrado'
+Linea 5: ASSIGN - '='
+Linea 5: ID - 'ladoCuadrado'
+Linea 5: TIMES - '*'
+Linea 5: TIMES - '*'
+Linea 5: NUMBER - 2
+Linea 6: VAR_CLASE - '@@contador'
+Linea 6: ASSIGN - '='
+Linea 6: NUMBER - 1
+Linea 7: VAR_INSTANCIA - '@nombre'
+Linea 7: ASSIGN - '='
+Linea 7: CONSTANTE - 'Algoritmo'
+Linea 7: NUMBER - 2
+Linea 7: CONSTANTE - 'No'
+Linea 7: ID - 'esta'
+Linea 7: ID - 'definido'
+Linea 7: ID - 'strings'
+Linea 7: ID - 'aun'
+Linea 8: ID - 'numeroFloat'
+Linea 8: ASSIGN - '='
+Linea 8: NUMBER - 10
+Linea 8: NUMBER - 2
+Linea 9: ID - 'numeroFloat2'
+Linea 9: ASSIGN - '='
+Linea 9: FLOAT - 10.0
+Linea 9: NUMBER - 2
+Linea 10: ID - 'altura'
+Linea 10: ASSIGN - '='
+Linea 10: NUMBER - 10
+Linea 11: ID - 'base'
+Linea 11: ASSIGN - '='
+Linea 11: NUMBER - 5
+Linea 12: ID - 'areaTriangulo'
+Linea 12: ASSIGN - '='
+Linea 12: LPAREN - '('
+Linea 12: ID - 'base'
+Linea 12: TIMES - '*'
+Linea 12: ID - 'altura'
+Linea 12: RPAREN - ')'
+Linea 12: DIVIDE - '/'
+Linea 12: NUMBER - 2
+
+=== ERRORES LEXICOS ===
+Error lexico, linea 7: caracter no definido en el lenguaje '"'
+Error lexico, linea 7: caracter no definido en el lenguaje '"'
+Error lexico, linea 7: caracter no definido en el lenguaje '#'
+Error lexico, linea 8: caracter no definido en el lenguaje '.'
+Error lexico, linea 8: caracter no definido en el lenguaje '.'
+Error lexico, linea 9: caracter no definido en el lenguaje '.'
