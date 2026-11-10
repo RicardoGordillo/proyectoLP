@@ -1,0 +1,7 @@
+=== TOKENS RECONOCIDOS ===
+Linea 2: ID - 'valor'
+Linea 2: ASSIGN - '='
+Linea 2: NUMBER - 5
+
+=== ERRORES LEXICOS ===
+Error lexico, linea 3: comentario de bloque sin =end

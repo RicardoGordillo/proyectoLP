@@ -5,6 +5,7 @@
 
 import os
 import argparse
+import re
 from datetime import datetime
 import ply.lex as lex
 
@@ -12,12 +13,28 @@ import ply.lex as lex
 # Inicio aporte: Variables e identificadores  (integrante: Ricardo Gordillo)
 
 
+# Inicio aporte: palabras reservadas, delimitadores y comentarios (Adrian Toledo)
 reserved = {
+    palabra: palabra.upper() for palabra in (
+        "alias", "and", "begin", "break", "case", "class", "def", "do",
+        "else", "elsif", "end", "ensure", "for", "if", "in", "module",
+        "next", "not", "or", "redo", "rescue", "retry", "return", "super",
+        "then", "undef", "unless", "until", "when", "while", "yield",
+    )
+}
+reserved.update({
     "self": "SELF",
     "nil": "NIL",
     "true": "TRUE",
     "false": "FALSE",
-}
+    "defined?": "DEFINED",
+    "BEGIN": "BEGIN_UPPER",
+    "END": "END_UPPER",
+    "__FILE__": "FILE_MAGIC",
+    "__LINE__": "LINE_MAGIC",
+    "__ENCODING__": "ENCODING_MAGIC",
+})
+# Fin aporte: palabras reservadas (Adrian Toledo)
 
 
 tokens = (
@@ -33,6 +50,9 @@ tokens = (
     "FLOAT",
     "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD",
     "LPAREN", "RPAREN",
+    # Inicio aporte: delimitadores (Adrian Toledo)
+    "LBRACKET", "RBRACKET", "LBRACE", "RBRACE", "COMMA", "SEMICOLON",
+    # Fin aporte: delimitadores (Adrian Toledo)
 ) + tuple(reserved.values())
 
 # --- Tokens simples ---
@@ -44,6 +64,39 @@ t_DIVIDE = r"/"
 t_MOD = r"%"
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
+
+# Inicio aporte: delimitadores y comentarios (Adrian Toledo)
+t_LBRACKET = r"\["
+t_RBRACKET = r"\]"
+t_LBRACE = r"\{"
+t_RBRACE = r"\}"
+t_COMMA = r","
+t_SEMICOLON = r";"
+
+
+def t_COMENTARIO_BLOQUE(t):
+    r"(?m:^=begin(?=[ \t\r\n]|$)[^\n]*(?:\n|$))"
+    inicio = t.lexpos
+    fin = re.search(r"(?m:^=end(?=[ \t\r\n]|$)[^\n]*(?:\n|$))", t.lexer.lexdata[t.lexer.lexpos:])
+    if fin is None:
+        msg = f"Error lexico, linea {t.lineno}: comentario de bloque sin =end"
+        errores.append(msg)
+        print(msg)
+        t.lexer.lexpos = len(t.lexer.lexdata)
+    else:
+        t.lexer.lexpos += fin.end()
+    t.lexer.lineno += t.lexer.lexdata[inicio:t.lexer.lexpos].count("\n")
+
+
+def t_COMENTARIO_LINEA(t):
+    r"\#[^\n]*"
+    pass
+
+
+def t_DEFINED(t):
+    r"defined\?(?![A-Za-z0-9_])"
+    return t
+# Fin aporte: delimitadores y comentarios (Adrian Toledo)
 
 
 # --- Tokens con funcion ---
@@ -66,6 +119,7 @@ def t_VAR_GLOBAL(t):
 
 def t_CONSTANTE(t):
     r"[A-Z][A-Za-z0-9_]*"
+    t.type = reserved.get(t.value, "CONSTANTE")
     return t
 
 
@@ -130,6 +184,11 @@ def guardar_log(tokens_salida, errores_salida, usuario, carpeta="logs"):
     os.makedirs(carpeta, exist_ok=True)
     marca = datetime.now().strftime("%d-%m-%Y-%Hh%M")
     ruta = os.path.join(carpeta, f"lexico-{usuario}-{marca}.txt")
+    # No sobrescribir pruebas ejecutadas durante el mismo minuto.
+    indice = 2
+    while os.path.exists(ruta):
+        ruta = os.path.join(carpeta, f"lexico-{usuario}-{marca}-{indice}.txt")
+        indice += 1
     with open(ruta, "w", encoding="utf-8") as f:
         f.write("=== TOKENS RECONOCIDOS ===\n")
         f.write("\n".join(tokens_salida) + "\n\n")

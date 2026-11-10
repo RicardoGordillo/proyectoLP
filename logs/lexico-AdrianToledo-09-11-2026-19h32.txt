@@ -1,0 +1,59 @@
+=== TOKENS RECONOCIDOS ===
+Linea 6: DEF - 'def'
+Linea 6: ID - 'evaluar'
+Linea 6: LPAREN - '('
+Linea 6: ID - 'edad'
+Linea 6: ASSIGN - '='
+Linea 6: NUMBER - 18
+Linea 6: RPAREN - ')'
+Linea 7: ID - 'valores'
+Linea 7: ASSIGN - '='
+Linea 7: LBRACKET - '['
+Linea 7: NUMBER - 1
+Linea 7: COMMA - ','
+Linea 7: NUMBER - 2
+Linea 7: COMMA - ','
+Linea 7: NUMBER - 3
+Linea 7: RBRACKET - ']'
+Linea 7: SEMICOLON - ';'
+Linea 7: ID - 'datos'
+Linea 7: ASSIGN - '='
+Linea 7: LBRACE - '{'
+Linea 7: NUMBER - 1
+Linea 7: ASSIGN - '='
+Linea 7: NUMBER - 2
+Linea 7: RBRACE - '}'
+Linea 8: UNLESS - 'unless'
+Linea 8: ID - 'edad'
+Linea 8: ASSIGN - '='
+Linea 8: NUMBER - 18
+Linea 9: RETURN - 'return'
+Linea 9: FALSE - 'false'
+Linea 10: ELSE - 'else'
+Linea 11: RETURN - 'return'
+Linea 11: TRUE - 'true'
+Linea 12: END - 'end'
+Linea 13: END - 'end'
+Linea 15: ID - 'edad'
+Linea 15: COMMA - ','
+Linea 15: ID - 'limite'
+Linea 15: ASSIGN - '='
+Linea 15: NUMBER - 15
+Linea 15: COMMA - ','
+Linea 15: NUMBER - 18
+Linea 16: ID - 'resultado'
+Linea 16: ASSIGN - '='
+Linea 16: ID - 'evaluar'
+Linea 16: LPAREN - '('
+Linea 16: ID - 'edad'
+Linea 16: RPAREN - ')'
+Linea 17: ID - 'rango'
+Linea 17: ASSIGN - '='
+Linea 17: NUMBER - 1
+Linea 17: NUMBER - 10
+
+=== ERRORES LEXICOS ===
+Error lexico, linea 7: caracter no definido en el lenguaje '>'
+Error lexico, linea 8: caracter no definido en el lenguaje '>'
+Error lexico, linea 17: caracter no definido en el lenguaje '.'
+Error lexico, linea 17: caracter no definido en el lenguaje '.'
