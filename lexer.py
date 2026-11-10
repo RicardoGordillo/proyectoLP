@@ -44,7 +44,7 @@ tokens = (
     "VAR_CLASE",       # variable de clase:     @@contador
     "VAR_GLOBAL",      # variable global:       $estado
     "CONSTANTE",       # constante:             LIMITE, IVA
-    #Base agregada para poder hacer asignaciones (Borren este comentario y esta parte cuando agreguen estas operaciones, esto lo agregue para hacer pruebas)
+
     "ASSIGN",
     "NUMBER",
     "FLOAT",
@@ -54,6 +54,10 @@ tokens = (
     # Inicio aporte: delimitadores (Adrian Toledo)
     "LBRACKET", "RBRACKET", "LBRACE", "RBRACE", "COMMA", "SEMICOLON",
     # Fin aporte: delimitadores (Adrian Toledo)
+    "POWER", "EQ", "NEQ", "GT", "LT", "GE", "LE", "AND_OP", "OR_OP", "NOT_OP", 
+    "PLUS_ASSIGN", "MINUS_ASSIGN", "TIMES_ASSIGN", "DIVIDE_ASSIGN", 
+    "RANGE_INCL", "RANGE_EXCL", "HASH_ARROW", 
+    "NEWLINE",
 ) + tuple(reserved.values())
 
 # --- Tokens simples ---
@@ -65,6 +69,23 @@ t_DIVIDE = r"/"
 t_MOD = r"%"
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
+t_POWER = r"\*\*" 
+t_EQ = r"=="
+t_NEQ = r"!=" 
+t_GE = r">=" 
+t_LE = r"<=" 
+t_GT = r">" 
+t_LT = r"<" 
+t_AND_OP = r"&&" 
+t_OR_OP = r"\|\|"
+t_NOT_OP = r"!" 
+t_PLUS_ASSIGN = r"\+="
+t_MINUS_ASSIGN = r"-="
+t_TIMES_ASSIGN = r"\*="
+t_DIVIDE_ASSIGN = r"/="
+t_RANGE_EXCL = r"\.\.\."
+t_RANGE_INCL = r"\.\."
+t_HASH_ARROW = r"=>"
 
 # Inicio aporte: delimitadores y comentarios (Adrian Toledo)
 t_LBRACKET = r"\["
@@ -158,6 +179,8 @@ def t_NUMBER(t):
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
+    t.type = "NEWLINE"
+    return t
 
 
 # Caracteres ignorados (espacios y tabs)
@@ -195,7 +218,8 @@ def analizar(codigo):
         tok = lexer.token()
         if not tok:
             break
-        salida.append(f"Linea {tok.lineno}: {tok.type} - {tok.value!r}")
+        columna = tok.lexpos - codigo.rfind("\n", 0, tok.lexpos) 
+        salida.append(f"Linea {tok.lineno}, Columna {columna}: {tok.type} - {tok.value!r}")
     return salida, list(errores)
 
 
@@ -203,7 +227,6 @@ def guardar_log(tokens_salida, errores_salida, usuario, carpeta="logs"):
     os.makedirs(carpeta, exist_ok=True)
     marca = datetime.now().strftime("%d-%m-%Y-%Hh%M")
     ruta = os.path.join(carpeta, f"lexico-{usuario}-{marca}.txt")
-    # No sobrescribir pruebas ejecutadas durante el mismo minuto.
     indice = 2
     while os.path.exists(ruta):
         ruta = os.path.join(carpeta, f"lexico-{usuario}-{marca}-{indice}.txt")
