@@ -1,0 +1,18 @@
+=== ANALISIS LEXICO RUBY - GRUPO REDSTONE ===
+Usuario GitHub: LenierGlez
+Fecha y hora (Ecuador): 09-11-2026 19:40:23
+Algoritmo analizado: prueba_error_lenier.rb
+Total tokens: 7
+Total errores: 1
+
+=== TOKENS RECONOCIDOS ===
+Linea 1: ID - 'mensaje'
+Linea 1: ASSIGN - '='
+Linea 2: ID - 'edad'
+Linea 2: ASSIGN - '='
+Linea 2: NUMBER - 21
+Linea 3: ID - 'puts'
+Linea 3: ID - 'edad'
+
+=== ERRORES LEXICOS ===
+Error lexico, linea 1: cadena sin comilla de cierre

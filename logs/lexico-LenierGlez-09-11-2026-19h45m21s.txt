@@ -1,0 +1,35 @@
+=== ANALISIS LEXICO RUBY - GRUPO REDSTONE ===
+Usuario GitHub: LenierGlez
+Fecha y hora (Ecuador): 09-11-2026 19:45:21
+Algoritmo analizado: algoritmo4.rb
+Total tokens: 24
+Total errores: 0
+
+=== TOKENS RECONOCIDOS ===
+Linea 1: ID - 'edad'
+Linea 1: ASSIGN - '='
+Linea 1: NUMBER - 21
+Linea 2: ID - 'nombre'
+Linea 2: ASSIGN - '='
+Linea 2: STRING - '"Lenier"'
+Linea 3: ID - 'promedio'
+Linea 3: ASSIGN - '='
+Linea 3: LPAREN - '('
+Linea 3: NUMBER - 8
+Linea 3: PLUS - '+'
+Linea 3: NUMBER - 9
+Linea 3: RPAREN - ')'
+Linea 3: DIVIDE - '/'
+Linea 3: FLOAT - 2.0
+Linea 4: ID - 'materia'
+Linea 4: ASSIGN - '='
+Linea 4: STRING - "'Lenguajes de Programacion'"
+Linea 5: ID - 'puts'
+Linea 5: ID - 'nombre'
+Linea 6: ID - 'puts'
+Linea 6: ID - 'materia'
+Linea 7: ID - 'puts'
+Linea 7: ID - 'promedio'
+
+=== ERRORES LEXICOS ===
+Ninguno

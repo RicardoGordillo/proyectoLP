@@ -48,6 +48,7 @@ tokens = (
     "ASSIGN",
     "NUMBER",
     "FLOAT",
+    "STRING",  # Lenier: cadenas Ruby simples y dobles
     "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD",
     "LPAREN", "RPAREN",
     # Inicio aporte: delimitadores (Adrian Toledo)
@@ -133,17 +134,25 @@ def t_ID(t):
 
 
 
-# --- Numeros (borren este comentario, lo agregue para poder hacer asignaciones basicas)---
+# ===== INICIO APORTE: LENIER GONZALEZ (NUMEROS Y CADENAS) =====
+# Números enteros, decimales y cadenas sin interpolacion (fase lexica).
+# La regla de STRING debe reconocer todo el lexema como una sola pieza.
+def t_STRING(t):
+    r'''("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')'''
+    return t
+
+
 def t_FLOAT(t):
-    r"\d+\.\d+"
+    r"[0-9]+\.[0-9]+"
     t.value = float(t.value)
     return t
 
 
 def t_NUMBER(t):
-    r"\d+"
+    r"[0-9]+"
     t.value = int(t.value)
     return t
+# ===== FIN APORTE: LENIER GONZALEZ (NUMEROS Y CADENAS) =====
 
 
 def t_newline(t):
@@ -152,12 +161,22 @@ def t_newline(t):
 
 
 # Caracteres ignorados (espacios y tabs)
-t_ignore = " \t"
+t_ignore = " \t\r"
 
 errores = []
 
 
 def t_error(t):
+    # INICIO APORTE: LENIER GONZALEZ - cadena sin cerrar
+    if t.value[0] in ('"', "'"):
+        posicion_salto = t.value.find("\n")
+        longitud = posicion_salto if posicion_salto >= 0 else len(t.value)
+        msg = f"Error lexico, linea {t.lexer.lineno}: cadena sin comilla de cierre"
+        errores.append(msg)
+        print(msg)
+        t.lexer.skip(max(1, longitud))
+        return
+    # FIN APORTE: LENIER GONZALEZ
     msg = f"Error lexico, linea {t.lexer.lineno}: caracter no definido en el lenguaje '{t.value[0]}'"
     errores.append(msg)
     print(msg)
