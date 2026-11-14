@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_avance2_lenier_ast_sin_end.rb
+Error sintáctico, línea 21: fin de archivo inesperado (EOF).
