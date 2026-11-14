@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_avance2_lenier.rb
+Análisis sintáctico correcto.
