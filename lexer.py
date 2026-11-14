@@ -33,6 +33,14 @@ reserved.update({
     "__FILE__": "FILE_MAGIC",
     "__LINE__": "LINE_MAGIC",
     "__ENCODING__": "ENCODING_MAGIC",
+    # Inicio aporte: palabras reservadas (Ricardo Gordillo)
+    "puts": "PUTS",
+    "print": "PRINT",
+    "gets": "GETS",
+    "attr_accessor": "ATTR_ACCESSOR",
+    "attr_reader": "ATTR_READER",
+    "attr_writer": "ATTR_WRITER",
+    # Fin aporte: palabras reservadas (Ricardo Gordillo)
 })
 # Fin aporte: palabras reservadas (Adrian Toledo)
 
@@ -58,6 +66,9 @@ tokens = (
     "PLUS_ASSIGN", "MINUS_ASSIGN", "TIMES_ASSIGN", "DIVIDE_ASSIGN", 
     "RANGE_INCL", "RANGE_EXCL", "HASH_ARROW", 
     "NEWLINE",
+    "LAMBDA",  # Ricardo Gordillo: operador lambda (->)
+    "DOT",  # Ricardo Gordillo: punto (.)
+    "SIMBOLO", # Ricardo Gordillo: simbolos
 ) + tuple(reserved.values())
 
 # --- Tokens simples ---
@@ -86,6 +97,8 @@ t_DIVIDE_ASSIGN = r"/="
 t_RANGE_EXCL = r"\.\.\."
 t_RANGE_INCL = r"\.\."
 t_HASH_ARROW = r"=>"
+t_LAMBDA = r"->"
+t_DOT = r"\."
 
 # Inicio aporte: delimitadores y comentarios (Adrian Toledo)
 t_LBRACKET = r"\["
@@ -114,15 +127,12 @@ def t_COMENTARIO_LINEA(t):
     r"\#[^\n]*"
     pass
 
-
 def t_DEFINED(t):
     r"defined\?(?![A-Za-z0-9_])"
     return t
 # Fin aporte: delimitadores y comentarios (Adrian Toledo)
 
-
 # --- Tokens con funcion ---
-
 
 def t_VAR_CLASE(t):
     r"@@[a-zA-Z_][A-Za-z0-9_]*"
@@ -138,6 +148,11 @@ def t_VAR_GLOBAL(t):
     r"\$[a-zA-Z_][A-Za-z0-9_]*"
     return t
 
+# Inicio aporte: símbolos (Ricardo Gordillo)
+def t_SIMBOLO(t):
+    r":[a-zA-Z_][A-Za-z0-9_]*"
+    return t
+# Fin aporte: símbolos (Ricardo Gordillo)
 
 def t_CONSTANTE(t):
     r"[A-Z][A-Za-z0-9_]*"

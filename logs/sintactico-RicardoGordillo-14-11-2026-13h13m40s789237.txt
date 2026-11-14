@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser2_RicardoGordillo.rb
+Error sintáctico, línea 15: token inesperado RBRACE ('}').

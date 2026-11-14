@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser2_RicardoGordillo.rb
+Error sintáctico, línea 22: token inesperado ID ('x').

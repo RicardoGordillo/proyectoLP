@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser2_RicardoGordillo.rb
+Error sintáctico, línea 10: token inesperado NUMBER (1).

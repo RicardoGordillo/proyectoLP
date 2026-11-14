@@ -1,0 +1,14 @@
+Archivo analizado: algoritmo_parser2_RicardoGordillo.rb
+Análisis sintáctico correcto.
+AST:
+('programa',
+ [('asignacion',
+   'datos',
+   ('hash',
+    [('par', ('cadena', '"a"'), ('literal', 1)),
+     ('par', ('cadena', '"b"'), ('literal', 2))])),
+  ('asignacion',
+   'doble',
+   ('lambda', ['x'], [('binaria', '*', ('id', 'x'), ('literal', 2))])),
+  ('asignacion', 'r', ('llamada_lambda', 'doble', 'call', [('literal', 3)])),
+  ('asignacion', 'r', ('llamada_lambda', 'doble', 'llamar', [('literal', 3)]))])
