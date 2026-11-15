@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser3_RicardoGordillo.rb
+Error sintáctico, línea 41: token inesperado BREAK ('break').

@@ -18,6 +18,7 @@ precedence = (
     ("left", "AND", "OR"),
     ("right", "NOT"),
     ("right", "ASSIGN"),
+    ("nonassoc", "RANGE_INCL", "RANGE_EXCL"),
     ("left", "OR_OP"),
     ("left", "AND_OP"),
     ("nonassoc", "EQ", "NEQ"),
@@ -27,6 +28,7 @@ precedence = (
     ("right", "MENOS_UNARIO"),
     ("right", "POWER"),
     ("right", "NOT_OP", "MAS_UNARIO"),
+    ("left", "DOT"),
 )
 
 
@@ -85,6 +87,37 @@ def p_vacio(p):
 def p_sentencia(p):
     "sentencia : expresion"
     p[0] = p[1]
+
+
+# Adrián Toledo — asignación paralela de variables locales.
+def p_asignacion_multiple(p):
+    "sentencia : lista_destinos ASSIGN saltos argumentos"
+    p[0] = ("asignacion_multiple", p[1], p[4])
+
+
+def p_lista_destinos(p):
+    """lista_destinos : ID COMMA saltos ID
+                      | lista_destinos COMMA saltos ID"""
+    p[0] = [p[1], p[4]] if isinstance(p[1], str) else p[1] + [p[4]]
+
+
+# Adrián Toledo — rangos inclusivos y exclusivos.
+def p_rango(p):
+    """expresion : expresion RANGE_INCL saltos expresion
+                 | expresion RANGE_EXCL saltos expresion"""
+    p[0] = ("rango", p[2], p[1], p[4])
+
+
+# Adrián Toledo — condicional inversa con else opcional.
+def p_unless(p):
+    "expresion : UNLESS expresion inicio_rama cuerpo else_unless END"
+    p[0] = ("unless", p[2], p[4], p[5])
+
+
+def p_else_unless(p):
+    """else_unless : vacio
+                   | ELSE cuerpo"""
+    p[0] = ("else", p[2]) if len(p) == 3 else None
     
 # Ricardo Gordillo — Asignación compuesta (+=, -=, *=, /=).
 def p_asignacion_compuesta(p):
@@ -339,13 +372,20 @@ def p_parametros(p):
 
 
 def p_lista_parametros(p):
-    """lista_parametros : ID
-                        | lista_parametros COMMA saltos ID"""
+    """lista_parametros : parametro
+                        | lista_parametros COMMA saltos parametro"""
     if len(p) == 2:
         p[0] = [p[1]]
     else:
         p[1].append(p[4])
         p[0] = p[1]
+
+
+# Adrián Toledo — parámetros con valor por defecto en métodos def.
+def p_parametro(p):
+    """parametro : ID
+                 | ID ASSIGN saltos expresion"""
+    p[0] = p[1] if len(p) == 2 else ("parametro_defecto", p[1], p[4])
 
 
 def p_return(p):
