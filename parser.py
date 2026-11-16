@@ -142,6 +142,13 @@ def p_while(p):
 def p_inicio_while(p):
     """inicio_while : separador
                     | DO"""
+
+# Ricardo Gordillo - break y next (se valida ahora en semantico)                 
+def p_break_next(p):
+    """sentencia : BREAK
+                 | NEXT"""
+    p[0] = (p.slice[1].type.lower(), p.lineno(1))
+    _ubicar(p, 1)
                     
 # Ricardo Gordillo - Estructura hash arrow (=>) para definir hashes.
 def p_hash(p):
@@ -259,7 +266,7 @@ def p_asignacion(p):
 def p_referencia(p):
     "expresion : ID"
     p[0] = ("id", p[1])
-
+    _ubicar(p, 1)
 
 def p_literal_numerico(p):
     """expresion : NUMBER

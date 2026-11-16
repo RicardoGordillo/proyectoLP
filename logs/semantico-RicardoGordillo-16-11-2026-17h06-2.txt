@@ -1,0 +1,9 @@
+Archivo analizado: pruebaSemantico2_RicardoGordillo.rb
+Error semántico (estructura de control), línea 4: break solo puede usarse dentro de un bucle.
+Error semántico (estructura de control), línea 5: next solo puede usarse dentro de un bucle.
+Error semántico (identificador), línea 8: la variable 'descuento' no ha sido definida.
+Error semántico (identificador), línea 12: la variable 'contador' no ha sido definida.
+Error semántico (identificador), línea 13: la variable 'nuevo' no ha sido definida.
+Error semántico (identificador), línea 17: la variable 'factor' no ha sido definida.
+Error semántico (estructura de control), línea 24: break solo puede usarse dentro de un bucle.
+Error semántico (identificador), línea 28: la variable 'auxiliar' no ha sido definida.
