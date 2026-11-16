@@ -123,6 +123,7 @@ def p_else_unless(p):
 def p_asignacion_compuesta(p):
     "expresion : ID op_asig_compuesta saltos expresion %prec ASSIGN"
     p[0] = ("asignacion_compuesta", p[2], p[1], p[4])
+    _ubicar(p, 2)
 
 def p_op_asig_compuesta(p):
     """op_asig_compuesta : PLUS_ASSIGN
@@ -130,6 +131,7 @@ def p_op_asig_compuesta(p):
                          | TIMES_ASSIGN
                          | DIVIDE_ASSIGN"""
     p[0] = p[1]
+    p.set_lineno(0, p.lineno(1))
 
 # Ricardo Gordillo — Estructura while ... end.
 def p_while(p):
@@ -204,10 +206,12 @@ def p_referencia_especial(p):
 def p_asignacion_especial(p):
     "expresion : variable_especial ASSIGN saltos expresion"
     p[0] = ("asignacion_" + p[1][0], p[1][1], p[4])
+    _ubicar(p, 2)
 
 def p_asignacion_compuesta_especial(p):
     "expresion : variable_especial op_asig_compuesta saltos expresion %prec ASSIGN"
     p[0] = ("asignacion_compuesta", p[2], p[1], p[4])
+    _ubicar(p, 2)
 
 def p_self(p):
     "expresion : SELF"
@@ -300,6 +304,7 @@ def p_expresion_binaria(p):
                  | expresion AND saltos expresion
                  | expresion OR saltos expresion"""
     p[0] = ("binaria", p[2], p[1], p[4])
+    _ubicar(p, 2)
 
 
 def p_expresion_unaria(p):
@@ -308,6 +313,7 @@ def p_expresion_unaria(p):
                  | NOT_OP saltos expresion
                  | NOT saltos expresion"""
     p[0] = ("unaria", p[1], p[3])
+    _ubicar(p, 1)
 
 
 # Lenier González Prieto — If con cualquier cantidad de elsif y else opcional.
@@ -412,11 +418,20 @@ def p_error(token):
 parser = yacc.yacc(debug=False, write_tables=False, errorlog=yacc.NullLogger())
 
 
-def analizar_ast(codigo):
-    """Devuelve (árbol, errores). Si hay errores, el árbol es None."""
+def _ubicar(p, indice):
+    lineas = getattr(p.lexer, "lineas", None)
+    if lineas is not None:
+        lineas[id(p[0])] = p.lineno(indice)
+
+
+def analizar_ast(codigo, *, lineas=None):
+    """Devuelve (árbol, errores) y opcionalmente ubica nodos por id en lineas."""
     lexer_ruby.errores.clear()
     lexico = lexer_ruby.lexer.clone()
     lexico.lineno = 1
+    lexico.lineas = lineas
+    if lineas is not None:
+        lineas.clear()
     try:
         arbol = parser.parse(codigo, lexer=lexico)
     except SyntaxError as error:

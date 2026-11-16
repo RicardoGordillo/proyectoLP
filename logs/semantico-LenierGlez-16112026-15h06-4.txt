@@ -1,0 +1,5 @@
+Archivo analizado: algoritmo_avance3_lenier.rb
+Error semántico (asignación a constantes), línea 29: la constante IVA ya fue definida y no puede reasignarse.
+Error semántico (asignación a constantes), línea 30: la constante IVA ya fue definida y no puede reasignarse.
+Error semántico (operaciones permitidas), línea 32: el operador '+' no admite String con Integer.
+Error semántico (operaciones permitidas), línea 35: el operador '+' no admite Boolean con Integer.

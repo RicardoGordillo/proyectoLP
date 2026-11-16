@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser1_RicardoGordillo.rb
+Análisis semántico correcto.
