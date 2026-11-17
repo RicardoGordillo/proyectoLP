@@ -1,0 +1,2 @@
+Archivo analizado: pruebaSemantico_RicardoGordillo.rb
+Análisis semántico correcto.
