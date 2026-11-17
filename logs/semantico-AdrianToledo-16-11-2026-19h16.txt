@@ -1,0 +1,4 @@
+Archivo analizado: algoritmo_semantico_AdrianToledo.rb
+Error semántico (conversión), línea 6: no es posible convertir Boolean con .to_i.
+Error semántico (retorno), línea 14: la variable 'resultado' no ha sido definida dentro del método.
+Error semántico (retorno), línea 21: retorno String incompatible con un retorno aritmético.

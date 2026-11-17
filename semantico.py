@@ -61,6 +61,8 @@ class _Analizador:
         self.constantes = {}
         self.bucles = 0
         self.alcances = [set()]
+        self.retornos = []
+        self.en_retorno = False
 
     def error(self, nodo, regla, mensaje):
         linea = self.lineas[id(nodo)]
@@ -72,9 +74,10 @@ class _Analizador:
 
     def usar(self, nodo, nombre):
         if nombre not in self.alcances[-1]:
-            self.error(
-                nodo, "identificador", f"la variable '{nombre}' no ha sido definida"
-            )
+            if self.en_retorno and self.retornos and self.retornos[-1] is not None:
+                self.error(nodo, "retorno", f"la variable '{nombre}' no ha sido definida dentro del método")
+            else:
+                self.error(nodo, "identificador", f"la variable '{nombre}' no ha sido definida")
 
     # Regla 1 de Lenier González Prieto: asignación a constantes.
     def asignar_constante(self, nodo, nombre, ambito):
@@ -181,11 +184,42 @@ class _Analizador:
             return None
 
         if clase == "asignacion_multiple":
-            self.visitar(nodo[2], tipos, ambito)
-            for nombre in nodo[1]:
+            valores = [self.visitar(valor, tipos, ambito) for valor in nodo[2]]
+            for indice, nombre in enumerate(nodo[1]):
                 self.definir(nombre)  # Ricardo Gordillo: define la variable
-                tipos.pop(nombre, None)
+                tipos[nombre] = valores[indice] if indice < len(valores) else "NilClass"
             return None
+
+        # Adrián Toledo: valida conversiones conocidas; los tipos desconocidos
+        # (por ejemplo, parámetros y entrada) no producen errores anticipados.
+        if clase == "metodo":
+            _, receptor, metodo, argumentos = nodo
+            tipo_receptor = self.visitar(receptor, tipos, ambito)
+            self.visitar(argumentos, tipos, ambito)
+            permitidos = {
+                "to_i": {"Integer", "Float", "String", "NilClass"},
+                "to_f": {"Integer", "Float", "String", "NilClass"},
+                "to_s": {"Integer", "Float", "String", "NilClass", "Boolean", "Array", "Hash", "Symbol", "Range", "Proc"},
+            }
+            if metodo in permitidos:
+                if tipo_receptor is not None and tipo_receptor not in permitidos[metodo]:
+                    self.error(nodo, "conversión", f"no es posible convertir {tipo_receptor} con .{metodo}")
+                    return None
+                return {"to_i": "Integer", "to_f": "Float", "to_s": "String"}[metodo] if tipo_receptor is not None else None
+            return None
+
+        # Adrián Toledo: registra retornos y comprueba sus referencias locales.
+        if clase == "return":
+            anterior = self.en_retorno
+            self.en_retorno = True
+            tipo = self.visitar(nodo[1], tipos, ambito)
+            self.en_retorno = anterior
+            if self.retornos and self.retornos[-1] is not None:
+                expresion = nodo[1]
+                aritmetica = (isinstance(expresion, tuple) and expresion[0] == "binaria"
+                              and expresion[1] in ARITMETICOS and tipo != "String")
+                self.retornos[-1].append((nodo, tipo, aritmetica))
+            return tipo
 
         # Ricardo Gordillo: regla de break y next (solo puede usarse dentro de bucles)
         if clase in {"break", "next"}:
@@ -275,7 +309,17 @@ class _Analizador:
                     self.definir(parametro[1])
                 else:
                     self.definir(parametro)
+            self.retornos.append([] if clase == "def" else None)
             self.visitar(nodo[-1], locales, ambito_cuerpo)
+            retornos = self.retornos.pop()
+            # Adrián Toledo: un método con retorno numérico o aritmético no
+            # debe mezclar returns vacíos o de tipo conocido incompatible.
+            if retornos and any(ar or tipo in NUMERICOS for _, tipo, ar in retornos):
+                for retorno, tipo, _ in retornos:
+                    if retorno[1] is None:
+                        self.error(retorno, "retorno", "return vacío en un método con retorno aritmético")
+                    elif tipo is not None and tipo not in NUMERICOS:
+                        self.error(retorno, "retorno", f"retorno {tipo} incompatible con un retorno aritmético")
             self.alcances.pop()
             self.bucles = buclesprevios
             return "Proc" if clase == "lambda" else None

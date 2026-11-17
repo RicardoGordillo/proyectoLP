@@ -12,3 +12,10 @@ python3 lexer.py algoritmo1.rb algoritmo2.rb algoritmo3.rb -u nombre_usuario
 Cada archivo analizado genera un log en `logs/` con los tokens y errores. Si
 se ejecutan varias pruebas en el mismo minuto, se agrega un número al nombre
 del log para conservar todos los resultados.
+
+## Análisis semántico
+
+```sh
+python3 semantico.py algoritmo_semantico_AdrianToledo.rb -u AdrianToledo
+```
+

@@ -1,0 +1,2 @@
+Archivo analizado: algoritmo_parser_AdrianToledo.rb
+Análisis semántico correcto.

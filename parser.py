@@ -184,6 +184,7 @@ def p_llamada_metodo(p):
     """expresion : expresion DOT ID
                  | expresion DOT ID LPAREN saltos argumentos_optativos RPAREN"""
     p[0] = ("metodo", p[1], p[3], p[6] if len(p) == 8 else [])
+    _ubicar(p, 3)
  
 # Ricardo Gordillo - Impresion de expresiones con puts y print.   
 def p_impresion(p):
@@ -405,6 +406,7 @@ def p_return(p):
     """sentencia : RETURN
                  | RETURN expresion"""
     p[0] = ("return", p[2] if len(p) == 3 else None)
+    _ubicar(p, 1)
 
 
 def p_llamada(p):
